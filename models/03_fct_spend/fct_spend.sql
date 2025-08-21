@@ -1,17 +1,17 @@
 /*Final Fact Table */
 
-{{ config(materialized='incremental') }}
+{{ config(materialized='table') }}
 
 with base as(
 SELECT 
-    F.*,
+    a.*,
     CONCAT(Year(trans_dt), ' ', Month(trans_dt)) as year_month
-    FROM {{ ref('fct_fidelity') }} as F 
+    FROM {{ ref('stg_BankA') }} as a 
 union all
 SELECT 
-    C.*,
+    b.*,
     CONCAT(Year(trans_dt), ' ', Month(trans_dt)) as year_month
-    FROM {{ ref('fct_chase') }} as C
+    FROM {{ ref('stg_BankB') }} as b
 )
 
 
