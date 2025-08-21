@@ -6,11 +6,11 @@ with base as (
           
     SELECT
         ff.Merchant_Descriptor
-    FROM {{ ref('fct_fidelity') }} ff
+    FROM {{ ref('stg_BankA') }} a
     UNION ALL
     SELECT
         cf.Merchant_Descriptor
-    FROM {{ ref('fct_chase') }} cf
+    FROM {{ ref('stg_BankB') }} b
     )
 
 SELECT
