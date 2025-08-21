@@ -1,6 +1,6 @@
 /*Transform Bank A seed .csv to Bank A fact table */
 
-{{ config(materialized='incremental') }}
+{{ config(materialized='table') }}
 
 with base as
 (
@@ -16,7 +16,7 @@ FROM {{ ref('BankA_seed') }}
 SELECT 
     {{ dbt_utils.generate_surrogate_key(['Description', 'formatted_dt']) }} AS trans_ID,
      formatted_dt as trans_dt,
-    'Chase' as company,
+    'BankA' as company,
     CASE
         WHEN Type in ('Fee', 'Cash Advance', 'Adjustment') THEN 'Sale'
         ELSE Type
@@ -25,8 +25,8 @@ SELECT
     CAST(Amount as DECIMAL(10,2)) * -1 as trans_amt
 
 FROM base
-    {% if is_incremental() %}
-    WHERE formatted_dt > (SELECT MAX(trans_dt) FROM {{ this }})
-    {% endif %}
+    --{% if is_incremental() %}
+    --WHERE formatted_dt > (SELECT MAX(trans_dt) FROM {{ this }})
+    --{% endif %}
 
     
