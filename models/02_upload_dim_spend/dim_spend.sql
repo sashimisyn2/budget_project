@@ -1,12 +1,12 @@
 /*Budget_Project: Assign scrubbed merchant name and category flag for final spend dimension table */
 
-{{ config(materialized='incremental') }}
+{{ config(materialized='table') }}
 
 
 SELECT
     dim_dt,
     REGEXP_REPLACE(merchant_descriptor, '\s+', ' ', 'g') AS merchant_descriptor,
-    category_flag as category_flag,
+    category_name as category,
     CASE
     WHEN POSITION('TST' IN merchant_descriptor) > 0
          OR POSITION('SQ' IN merchant_descriptor) > 0
@@ -105,11 +105,8 @@ SELECT
 END AS merchant_name
 
         
-FROM {{ ref('spend_dim_template') }}
-      {% if is_incremental() %} 
-      WHERE dim_dt > (SELECT MAX(dim_dt) FROM {{ this }})
-      {% endif %}
-
+FROM {{ ref('seed_spend_dim') }}
+      
 
 
 

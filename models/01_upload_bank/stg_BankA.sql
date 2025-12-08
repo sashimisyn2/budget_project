@@ -9,13 +9,15 @@ SELECT
     Type,
     Description,
     Amount
-FROM {{ ref('BankA_seed') }} 
+FROM {{ ref('seed_BankA') }} 
     
 
 )
 SELECT 
     {{ dbt_utils.generate_surrogate_key(['Description', 'formatted_dt']) }} AS trans_ID,
      formatted_dt as trans_dt,
+     YEAR(formatted_dt) as yr,
+     MONTH(formatted_dt) AS mnth,
     'BankA' as company,
     CASE
         WHEN Type in ('Fee', 'Cash Advance', 'Adjustment') THEN 'Sale'
@@ -25,8 +27,5 @@ SELECT
     CAST(Amount as DECIMAL(10,2)) * -1 as trans_amt
 
 FROM base
-    --{% if is_incremental() %}
-    --WHERE formatted_dt > (SELECT MAX(trans_dt) FROM {{ this }})
-    --{% endif %}
-
+    
     

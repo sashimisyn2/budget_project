@@ -1,15 +1,25 @@
-Welcome to your new dbt project!
+#Budget Tracker
 
-### Using the starter project
+This project documents the dbt jobs to aggregate your credit card and bank statements into a payment data mart in order to conduct analyses with a jupyter notebook. This project uses all open-source code and is aimed at people have a basic knowledge of SQL for transformation and python for analyses. 
 
-Try running the following commands:
-- dbt run
-- dbt test
+##Motivation
+This project was createc because I needed to aggregate and analyze my spend. However, I did not want to expose my data to a third party company and I did not think the price for paid budget apps was worth the tracking features.  
+
+##Installation
+This project requires the following (including respective package manager to install):
+
+- DBT for data transformation (pip)
+- DuckDB for data warehouse and storage (pip)
+- Jupyter notebook to create a final analysis (homebrew, conda)
+- An integrated development editor (such as Visual Code Studio) to edit files
 
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+##Usage
+The project is comprised of the following components:
+1. Upload  credit card and debit card .csv statements
+2. Transform .csv statements into tables
+3. Apply a spend dimension table that categorizes spend and merchant name
+4. Create final spend fact table
+5. Use jupyter notebook as final layer on top of fact table for analysis
+
+
